@@ -8,7 +8,7 @@ Hospedagem: VPS Hostinger com CloudPanel (Nginx + PHP-FPM).
 |---|---|
 | Telefones, WhatsApp, endereço, horário, redes, avaliações | `src/config/site.ts` |
 | IDs de GTM, GA4, Google Ads, Pixel da Meta, verificações | `src/config/site.ts` → `tracking` |
-| Textos dos serviços, passos, perguntas, fabricantes | `src/config/conteudo.ts` |
+| Textos dos serviços, passos, perguntas, assuntos do formulário | `src/config/conteudo.ts` |
 | Layout e textos dos blocos | `src/pages/index.astro` |
 | Cores, fontes, espaçamentos | `src/styles/global.css` |
 | Logo (trocar pelo vetor) | `public/img/logo-oma.png` e `logo-oma-branco.png` (ou SVG com o mesmo nome e ajuste em `index.astro`) |
@@ -32,7 +32,7 @@ npm run build        # gera a pasta dist/
 - Eventos no `dataLayer` (para o GTM):
   - `whatsapp_click` (com `origem`: hero, cabecalho, menu, card-<servico>, mitsubishi, motul, como-funciona, rodape, flutuante, barra-fixa)
   - `phone_click`, `route_click`, `email_click`, `social_click`, `reviews_click`, `map_open`
-  - `generate_lead` (formulário, com `fabricante` e `event_id`)
+  - `generate_lead` (formulário, com `assunto` e `event_id`)
 - Pixel da Meta: `Contact` (WhatsApp/telefone), `Lead` (formulário), `FindLocation` (rota).
 - API de Conversões da Meta: preencha `meta_pixel_id` e `meta_capi_token` em `oma-privado/config.php`. O `event_id` deduplica com o Pixel.
 
@@ -42,7 +42,7 @@ npm run build        # gera a pasta dist/
 - Redirecionamentos 301 do WordPress antigo em `deploy/nginx-omaoficina.conf`.
 
 ## Formulário
-`/api/orcamento.php`: valida, grava `htdocs/oma-privado/orcamentos.csv`, envia e-mail para recepcao@omaoficina.com.br e (opcional) envia o Lead à Meta. O WhatsApp abre no clique, então o lead não se perde mesmo se o servidor falhar.
+`/api/agendar.php`: recebe nome, WhatsApp e assunto, grava `htdocs/oma-privado/agendamentos.csv`, envia e-mail para recepcao@omaoficina.com.br e (opcional) envia o Lead à Meta. O WhatsApp abre no clique, então o pedido não se perde mesmo se o servidor falhar. O WhatsApp é canal de agendamento de avaliação, nunca de orçamento à distância.
 
 ## Ambiente de teste (oma.digiteria.cloud)
 ```bash

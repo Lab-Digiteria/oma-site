@@ -74,39 +74,28 @@ aviso?.querySelectorAll<HTMLButtonElement>('[data-consent]').forEach((b) => b.ad
   aviso.hidden = true;
 }));
 
-// ---------- Formulário de orçamento ----------
-const form = document.querySelector<HTMLFormElement>('#form-orcamento');
+// ---------- Formulário de agendamento ----------
+const form = document.querySelector<HTMLFormElement>('#form-agendar');
 if (form) {
   const erro = form.querySelector<HTMLElement>('.form__erro')!;
   const tel = form.elements.namedItem('whatsapp') as HTMLInputElement;
-  const chassi = form.elements.namedItem('chassi') as HTMLInputElement;
-  const ano = form.elements.namedItem('ano') as HTMLInputElement;
 
   tel.addEventListener('input', () => {
     let d = tel.value.replace(/\D/g, '').slice(0, 11);
     tel.value = d.length > 6 ? `(${d.slice(0, 2)}) ${d.slice(2, d.length - 4)}-${d.slice(-4)}` : d.length > 2 ? `(${d.slice(0, 2)}) ${d.slice(2)}` : d;
   });
-  chassi.addEventListener('input', () => { chassi.value = chassi.value.toUpperCase().replace(/[^A-HJ-NPR-Z0-9]/g, ''); });
-  ano.addEventListener('input', () => { ano.value = ano.value.replace(/\D/g, '').slice(0, 4); });
+
+  form.addEventListener('input', (e) => { (e.target as HTMLElement).removeAttribute('aria-invalid'); if (!form.querySelector('[aria-invalid="true"]')) erro.hidden = true; });
 
   const valida = (): string => {
     const f = new FormData(form);
     const marca = (el: string, bad: boolean) => (form.elements.namedItem(el) as HTMLElement).setAttribute('aria-invalid', String(bad));
     const nome = String(f.get('nome') || '').trim();
     const t = String(f.get('whatsapp') || '').replace(/\D/g, '');
-    const fab = String(f.get('fabricante') || '');
-    const mod = String(f.get('modelo') || '').trim();
-    const a = Number(f.get('ano'));
-    const c = String(f.get('chassi') || '');
-    const anoMax = new Date().getFullYear() + 1;
     const erros: string[] = [];
     marca('nome', nome.length < 2); if (nome.length < 2) erros.push('seu nome');
     marca('whatsapp', t.length < 10); if (t.length < 10) erros.push('um WhatsApp com DDD');
-    marca('fabricante', !fab); if (!fab) erros.push('o fabricante');
-    marca('modelo', !mod); if (!mod) erros.push('o modelo');
-    const anoRuim = !(a >= 1950 && a <= anoMax); marca('ano', anoRuim); if (anoRuim) erros.push('o ano com 4 dígitos');
-    marca('chassi', c.length !== 17); if (c.length !== 17) erros.push('o chassi com 17 caracteres');
-    return erros.length ? `Falta preencher ${erros.join(', ').replace(/, ([^,]*)$/, ' e $1')}.` : '';
+    return erros.length ? `Falta preencher ${erros.join(' e ')}.` : '';
   };
 
   form.addEventListener('submit', async (ev) => {
@@ -118,17 +107,16 @@ if (form) {
     (form.elements.namedItem('event_id') as HTMLInputElement).value = id;
     const f = new FormData(form);
     const texto = [
-      'Olá! Vim pelo site da OMA e quero um orçamento.',
+      'Olá! Vim pelo site da OMA e quero agendar uma avaliação do meu carro na oficina.',
       `Nome: ${f.get('nome')}`,
-      `Veículo: ${f.get('fabricante')} ${f.get('modelo')} ${f.get('ano')}`,
-      `Chassi: ${f.get('chassi')}`,
+      `Assunto: ${f.get('assunto')}`,
     ].join('\n');
     const link = `https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(texto)}`;
 
     // Abre o WhatsApp já (no clique), para não ser bloqueado como pop-up.
     const janela = window.open(link, '_blank');
     if (janela) janela.opener = null;
-    track('generate_lead', { origem: 'formulario', fabricante: f.get('fabricante'), event_id: id });
+    track('generate_lead', { origem: 'formulario', assunto: f.get('assunto'), event_id: id });
 
     const ok = form.querySelector<HTMLElement>('.form__ok')!;
     ok.querySelector<HTMLAnchorElement>('.form__ok-link')!.href = link;
@@ -138,7 +126,7 @@ if (form) {
     try {
       const ctrl = new AbortController(); setTimeout(() => ctrl.abort(), 8000);
       await fetch(form.action, { method: 'POST', body: f, signal: ctrl.signal, keepalive: true });
-    } catch { /* O WhatsApp já abriu: o lead não se perde se o servidor falhar. */ }
+    } catch { /* O WhatsApp já abriu: o pedido não se perde se o servidor falhar. */ }
   });
 }
 export {};

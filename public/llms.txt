@@ -30,5 +30,5 @@
 - Monitoramento 24h, alarmes e seguro para veículos em serviço (Vigban)
 - Reuso de água da chuva, resíduos com destinação credenciada
 
-## Orçamento
-Informe marca, modelo, ano e chassi pelo WhatsApp ou pelo formulário em https://omaoficina.com.br/#orcamento. O serviço só começa após aprovação do cliente.
+## Agendamento e orçamento
+A OMA não faz orçamento à distância. Pelo WhatsApp (+55 21 97979-0437) ou pelo formulário em https://omaoficina.com.br/#agendar o cliente agenda uma avaliação do carro na oficina. O orçamento é feito depois da avaliação, e o serviço só começa após aprovação do cliente.

@@ -17,8 +17,8 @@ export const site = {
     cidade: 'Rio de Janeiro',
     uf: 'RJ',
     cep: '20940-010',
-    lat: -22.9050221,
-    lng: -43.2143044,
+    lat: -22.905985,
+    lng: -43.2174559,
   },
 
   horario: {
@@ -32,7 +32,7 @@ export const site = {
     numero: '5521979790437', // só dígitos, com 55 + DDD
     exibicao: '(21) 97979-0437',
     mensagemPadrao:
-      'Olá! Vim pelo site da OMA e quero um orçamento. Vou informar marca, modelo, ano e chassi do carro.',
+      'Olá! Vim pelo site da OMA e quero agendar uma avaliação do meu carro na oficina.',
   },
 
   telefones: [
@@ -50,7 +50,9 @@ export const site = {
 
   googleMaps: {
     placeId: 'ChIJGQT34ZV_mQARnwRExmC-vRg',
-    link: 'https://www.google.com/maps/search/?api=1&query=OMA+Oficina+Multimarcas+Automotiva&query_place_id=ChIJGQT34ZV_mQARnwRExmC-vRg',
+    // Rota pelo endereço (o pino do Perfil da Empresa no Google está ~350 m fora do lugar).
+    link: 'https://www.google.com/maps/search/?api=1&query=Rua+Antunes+Maciel%2C+47+-+S%C3%A3o+Crist%C3%B3v%C3%A3o%2C+Rio+de+Janeiro+-+RJ%2C+20940-010',
+    perfil: 'https://www.google.com/maps/search/?api=1&query=OMA+Oficina+Multimarcas+Automotiva&query_place_id=ChIJGQT34ZV_mQARnwRExmC-vRg',
     avaliar: 'https://search.google.com/local/reviews?placeid=ChIJGQT34ZV_mQARnwRExmC-vRg',
   },
 

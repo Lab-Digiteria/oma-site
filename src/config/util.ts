@@ -4,7 +4,7 @@ export const wa = (mensagem: string = site.whatsapp.mensagemPadrao) =>
   `https://wa.me/${site.whatsapp.numero}?text=${encodeURIComponent(mensagem)}`;
 
 export const waServico = (servico: string) =>
-  wa(`Olá! Vim pelo site da OMA e quero um orçamento de ${servico.toLowerCase()}. Vou informar marca, modelo, ano e chassi do carro.`);
+  wa(`Olá! Vim pelo site da OMA e quero agendar uma avaliação do meu carro na oficina (${servico.charAt(0).toLowerCase() + servico.slice(1)}).`);
 
 export const fixoPrincipal = site.telefones.find((t) => t.principal) ?? site.telefones[0];
 

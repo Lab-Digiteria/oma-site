@@ -67,16 +67,16 @@ export const numeros = [
 
 export const passos = [
   {
-    titulo: 'Envie os dados do carro',
-    texto: 'Marca, modelo, ano e chassi, pelo WhatsApp ou pelo formulário.',
+    titulo: 'Agende a avaliação',
+    texto: 'Pelo WhatsApp ou pelo formulário, no dia e horário que forem melhores para você.',
   },
   {
-    titulo: 'Avaliação técnica',
-    texto: 'Identificamos serviços e peças certos para a versão exata do seu carro.',
+    titulo: 'Avaliação na oficina',
+    texto: 'Nossa equipe examina o carro de perto, com diagnose, para saber exatamente o que ele precisa.',
   },
   {
-    titulo: 'Orçamento e execução',
-    texto: 'Você recebe o orçamento e o serviço só começa depois da sua aprovação.',
+    titulo: 'Orçamento e aprovação',
+    texto: 'Você recebe o orçamento com base no que foi avaliado. O serviço só começa depois da sua aprovação.',
   },
 ];
 
@@ -93,8 +93,8 @@ export const faq = [
     r: 'Carros nacionais e importados de todas as marcas. A especialidade da casa é Mitsubishi.',
   },
   {
-    p: 'Por que preciso informar o chassi?',
-    r: 'O chassi identifica a versão exata do carro. Com ele, o orçamento sai com as peças e os fluidos certos, sem retrabalho.',
+    p: 'Vocês fazem orçamento pelo WhatsApp?',
+    r: 'Não. O orçamento é feito depois da avaliação do carro na oficina, para ser preciso e sem surpresas. Pelo WhatsApp você agenda essa avaliação.',
   },
   {
     p: 'Onde fica a oficina?',
@@ -118,9 +118,8 @@ export const faq = [
   },
 ];
 
-export const fabricantes = [
-  'Mitsubishi',
-  'Audi', 'BMW', 'BYD', 'Caoa Chery', 'Chevrolet', 'Citroën', 'Fiat', 'Ford', 'GWM', 'Honda',
-  'Hyundai', 'Jaguar', 'Jeep', 'Kia', 'Land Rover', 'Lexus', 'Mercedes-Benz', 'Mini', 'Nissan',
-  'Peugeot', 'Porsche', 'Renault', 'Subaru', 'Suzuki', 'Toyota', 'Volkswagen', 'Volvo', 'Outra',
+export const assuntos = [
+  'Agendar avaliação do carro',
+  ...servicos.map((s) => `Avaliação: ${s.nome.charAt(0).toLowerCase() + s.nome.slice(1)}`),
+  'Outro assunto',
 ];

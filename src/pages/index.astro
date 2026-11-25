@@ -3,15 +3,15 @@ import Base from '../layouts/Base.astro';
 import Icone from '../components/Icone.astro';
 import Foto from '../components/Foto.astro';
 import { site } from '../config/site';
-import { servicos, numeros, passos, sustentabilidade, faq, fabricantes } from '../config/conteudo';
+import { servicos, numeros, passos, sustentabilidade, faq, assuntos } from '../config/conteudo';
 import { wa, waServico, fixoPrincipal } from '../config/util';
 
 const titulo = 'Oficina de Importados no Rio, Especialista Mitsubishi | OMA São Cristóvão';
-const descricao = 'Oficina multimarcas de importados em São Cristóvão (RJ), especializada em Mitsubishi. 1.400 m², diagnose para todas as marcas, lubrificantes Motul, funilaria e pintura. Orçamento pelo WhatsApp.';
+const descricao = 'Oficina multimarcas de importados em São Cristóvão (RJ), especializada em Mitsubishi. 1.400 m², diagnose para todas as marcas, lubrificantes Motul, funilaria e pintura. Agende uma avaliação na oficina pelo WhatsApp.';
 const e = site.endereco;
 const enderecoCompleto = `${e.rua}, ${e.bairro}, ${e.cidade} - ${e.uf}`;
 const waze = `https://waze.com/ul?ll=${e.lat},${e.lng}&navigate=yes`;
-const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(site.nome + ', ' + enderecoCompleto)}&output=embed`;
+const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(`${e.rua} - ${e.bairro}, ${e.cidade} - ${e.uf}, ${e.cep}`)}&z=17&output=embed`;
 ---
 <Base titulo={titulo} descricao={descricao}>
   <a class="pular" href="#conteudo">Pular para o conteúdo</a>
@@ -41,7 +41,7 @@ const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(site.nome 
         <a href="#servicos">Serviços</a>
         <a href="#mitsubishi">Mitsubishi</a>
         <a href="#estrutura">Estrutura</a>
-        <a href="#orcamento">Orçamento</a>
+        <a href="#agendar">Agendar</a>
         <a href="#contato">Como chegar</a>
         <div class="cab__nav-contato">
           <a href={`tel:${fixoPrincipal.numero}`} data-track="telefone" data-origem="menu">{fixoPrincipal.exibicao}</a>
@@ -71,10 +71,10 @@ const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(site.nome 
       </div>
       <div class="wrap hero__txt">
         <h1 id="h1">Oficina de importados no Rio, especializada em Mitsubishi</h1>
-        <p class="hero__apoio">1.400 m² em São Cristóvão, diagnose para todas as marcas e lubrificantes Motul. Envie marca, modelo e chassi e receba seu orçamento pelo WhatsApp.</p>
+        <p class="hero__apoio">1.400 m² em São Cristóvão, diagnose para todas as marcas e lubrificantes Motul. Agende uma avaliação na oficina: o orçamento sai depois que nossa equipe vê o seu carro.</p>
         <div class="hero__acoes">
           <a class="btn btn--wa btn--lg" href={wa()} target="_blank" rel="noopener" data-track="whatsapp" data-origem="hero">
-            <Icone nome="whatsapp" tamanho={22} /><span>Pedir orçamento no WhatsApp</span>
+            <Icone nome="whatsapp" tamanho={22} /><span>Agendar avaliação no WhatsApp</span>
           </a>
           <a class="btn btn--linha" href="#servicos">Ver serviços</a>
         </div>
@@ -95,7 +95,7 @@ const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(site.nome 
       <div class="wrap">
         <div class="secao__cab">
           <h2 id="t-servicos">O que fazemos pelo seu carro</h2>
-          <p>Cada serviço tem orçamento próprio. Toque no botão do card e a conversa já começa com o serviço certo.</p>
+          <p>Toque no botão do card para agendar a avaliação. A conversa já começa com o serviço certo.</p>
         </div>
         <ul class="cards" role="list">
           {servicos.map((s) => (
@@ -104,7 +104,7 @@ const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(site.nome 
               <h3>{s.nome}</h3>
               <p>{s.linha}</p>
               <a class="card__wa" href={waServico(s.nome)} target="_blank" rel="noopener" data-track="whatsapp" data-origem={`card-${s.id}`}>
-                <Icone nome="whatsapp" tamanho={20} /><span>Orçar no WhatsApp</span>
+                <Icone nome="whatsapp" tamanho={20} /><span>Agendar avaliação</span>
               </a>
             </li>
           ))}
@@ -119,9 +119,9 @@ const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(site.nome 
         <div class="mitsu__txt">
           <h2 id="t-mitsu">Mitsubishi é a nossa especialidade.</h2>
           <p class="mitsu__modelos">Lancer, Pajero, L200, Outlander, ASX, Eclipse Cross.</p>
-          <p>Conhecemos a mecânica, a tração 4x4, o câmbio CVT e a eletrônica da marca por dentro. Diagnóstico certo e peça certa, conferida pelo chassi.</p>
-          <a class="btn btn--wa" href={wa('Olá! Vim pelo site da OMA e quero um orçamento para meu Mitsubishi. Vou informar modelo, ano e chassi.')} target="_blank" rel="noopener" data-track="whatsapp" data-origem="mitsubishi">
-            <Icone nome="whatsapp" tamanho={20} /><span>Orçamento para meu Mitsubishi</span>
+          <p>Conhecemos a mecânica, a tração 4x4, o câmbio CVT e a eletrônica da marca por dentro. Na avaliação, o diagnóstico sai certo da primeira vez.</p>
+          <a class="btn btn--wa" href={wa('Olá! Vim pelo site da OMA e quero agendar uma avaliação do meu Mitsubishi na oficina.')} target="_blank" rel="noopener" data-track="whatsapp" data-origem="mitsubishi">
+            <Icone nome="whatsapp" tamanho={20} /><span>Agendar avaliação do meu Mitsubishi</span>
           </a>
         </div>
         <Foto class="mitsu__foto" nome="elevadores" larguras={[640, 1100]} largura={1100} altura={825} sizes="(min-width: 900px) 50vw, 100vw" alt="SUVs Mitsubishi nos elevadores da OMA" />
@@ -179,7 +179,7 @@ const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(site.nome 
             <span class="parceiro__marca" data-provisorio="motul">Motul</span>
             <h3>Lubrificantes Motul, parceira da OMA</h3>
             <p>Usamos lubrificantes Motul na especificação indicada por cada fabricante, dos carros do dia a dia aos clássicos.</p>
-            <a class="link-wa" href={waServico('Troca de óleo')} target="_blank" rel="noopener" data-track="whatsapp" data-origem="motul"><Icone nome="whatsapp" tamanho={20} />Agendar troca de óleo</a>
+            <a class="link-wa" href={waServico('Troca de óleo')} target="_blank" rel="noopener" data-track="whatsapp" data-origem="motul"><Icone nome="whatsapp" tamanho={20} />Agendar avaliação</a>
           </div>
         </div>
       </div>
@@ -189,15 +189,15 @@ const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(site.nome 
     <section class="secao secao--concreto" id="como-funciona" aria-labelledby="t-como">
       <div class="wrap">
         <div class="secao__cab">
-          <h2 id="t-como">Como funciona o orçamento</h2>
-          <p><strong>Por que pedimos o chassi?</strong> Ele identifica a versão exata do carro e evita peça errada.</p>
+          <h2 id="t-como">Como funciona</h2>
+          <p>O orçamento é feito na oficina, depois da avaliação do carro. Assim ele sai preciso, sem estimativa à distância.</p>
         </div>
         <ol class="rota">
           {passos.map((p, i) => (
             <li class="rota__parada"><span class="rota__marco" aria-hidden="true">{i + 1}</span><h3>{p.titulo}</h3><p>{p.texto}</p></li>
           ))}
         </ol>
-        <a class="btn btn--wa" href={wa()} target="_blank" rel="noopener" data-track="whatsapp" data-origem="como-funciona"><Icone nome="whatsapp" tamanho={20} /><span>Começar pelo WhatsApp</span></a>
+        <a class="btn btn--wa" href={wa()} target="_blank" rel="noopener" data-track="whatsapp" data-origem="como-funciona"><Icone nome="whatsapp" tamanho={20} /><span>Agendar pelo WhatsApp</span></a>
       </div>
     </section>
 
@@ -224,43 +224,31 @@ const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(site.nome 
     </section>
 
     <!-- 10. Formulário -->
-    <section class="secao secao--noite" id="orcamento" aria-labelledby="t-form">
+    <section class="secao secao--noite" id="agendar" aria-labelledby="t-form">
       <div class="wrap form-bloco">
         <div class="form-bloco__txt">
-          <h2 id="t-form">Peça seu orçamento</h2>
-          <p>Preencha os dados e continue a conversa no WhatsApp, já com tudo escrito. Se preferir, ligue para <a href={`tel:${fixoPrincipal.numero}`} data-track="telefone" data-origem="formulario">{fixoPrincipal.exibicao}</a>.</p>
-          <p class="form-bloco__chassi">O chassi está no documento do carro (CRLV), no campo “Chassi”, e tem 17 letras e números.</p>
+          <h2 id="t-form">Agende sua avaliação</h2>
+          <p>Deixe seu nome e WhatsApp e combinamos o melhor dia para avaliar o seu carro na oficina. Se preferir, ligue para <a href={`tel:${fixoPrincipal.numero}`} data-track="telefone" data-origem="formulario">{fixoPrincipal.exibicao}</a>.</p>
+          <p class="form-bloco__chassi">O orçamento é feito na oficina, depois da avaliação. Pelo WhatsApp tratamos só do agendamento.</p>
         </div>
-        <form class="form" id="form-orcamento" action="/api/orcamento.php" method="post" data-wa={site.whatsapp.numero} novalidate>
-          <fieldset>
-            <legend>Seus dados</legend>
-            <label>Nome<input name="nome" autocomplete="name" required maxlength="80" /></label>
-            <label>WhatsApp<input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(21) 99999-9999" required maxlength="16" /></label>
-          </fieldset>
-          <fieldset>
-            <legend>Seu veículo</legend>
-            <label>Fabricante
-              <select name="fabricante" required>
-                <option value="">Escolha</option>
-                {fabricantes.map((f) => <option>{f}</option>)}
-              </select>
-            </label>
-            <div class="form__dupla">
-              <label>Modelo<input name="modelo" required maxlength="60" placeholder="Ex.: Pajero Sport" /></label>
-              <label class="form__ano">Ano<input name="ano" inputmode="numeric" required maxlength="4" placeholder="2020" /></label>
-            </div>
-            <label>Chassi<input name="chassi" required maxlength="17" autocapitalize="characters" spellcheck="false" placeholder="17 letras e números" /></label>
-          </fieldset>
+        <form class="form" id="form-agendar" action="/api/agendar.php" method="post" data-wa={site.whatsapp.numero} novalidate>
+          <label>Nome<input name="nome" autocomplete="name" required maxlength="80" /></label>
+          <label>WhatsApp<input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(21) 99999-9999" required maxlength="16" /></label>
+          <label>Assunto
+            <select name="assunto">
+              {assuntos.map((a) => <option>{a}</option>)}
+            </select>
+          </label>
           <label class="hp" aria-hidden="true">Não preencha<input name="site" tabindex="-1" autocomplete="off" /></label>
           <input type="hidden" name="event_id" />
           <p class="form__erro" role="alert" hidden></p>
           <button class="btn btn--wa btn--lg btn--bloco" type="submit" data-origem="formulario">
-            <Icone nome="whatsapp" tamanho={22} /><span>Enviar pelo WhatsApp</span>
+            <Icone nome="whatsapp" tamanho={22} /><span>Agendar pelo WhatsApp</span>
           </button>
-          <p class="form__lgpd">Usamos seus dados só para responder ao orçamento. <a href="/politica-de-privacidade/">Política de privacidade</a>.</p>
+          <p class="form__lgpd">Usamos seus dados só para agendar sua avaliação. <a href="/politica-de-privacidade/">Política de privacidade</a>.</p>
           <div class="form__ok" hidden>
             <svg viewBox="0 0 32 32" width="56" height="56" aria-hidden="true"><path class="ok-check" d="M5 17l7 7L27 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <p><strong>Pedido enviado.</strong> Abrimos o WhatsApp com seus dados. Se ele não abriu, <a class="form__ok-link" href={wa()} target="_blank" rel="noopener">toque aqui</a>.</p>
+            <p><strong>Pedido de agendamento enviado.</strong> Abrimos o WhatsApp para combinar o dia. Se ele não abriu, <a class="form__ok-link" href={wa()} target="_blank" rel="noopener">toque aqui</a>.</p>
           </div>
         </form>
       </div>

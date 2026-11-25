@@ -1,6 +1,6 @@
 <?php
 /**
- * OMA Oficina — recebe o formulário de orçamento.
+ * OMA Oficina — recebe o formulário de agendamento de avaliação.
  * 1) valida; 2) guarda cópia em CSV fora da pasta pública; 3) envia e-mail para a recepção;
  * 4) (opcional) envia o evento Lead para a API de Conversões da Meta.
  *
@@ -36,19 +36,12 @@ $limpa = fn(string $k, int $max) => mb_substr(trim(strip_tags((string) ($_POST[$
 $d = [
     'nome' => $limpa('nome', 80),
     'whatsapp' => preg_replace('/\D/', '', $limpa('whatsapp', 20)),
-    'fabricante' => $limpa('fabricante', 40),
-    'modelo' => $limpa('modelo', 60),
-    'ano' => preg_replace('/\D/', '', $limpa('ano', 4)),
-    'chassi' => strtoupper(preg_replace('/[^A-Za-z0-9]/', '', $limpa('chassi', 17))),
+    'assunto' => $limpa('assunto', 80) ?: 'Agendar avaliação do carro',
     'event_id' => preg_replace('/[^A-Za-z0-9\-]/', '', $limpa('event_id', 64)),
 ];
 $erros = [];
 if (mb_strlen($d['nome']) < 2) $erros[] = 'nome';
 if (strlen($d['whatsapp']) < 10) $erros[] = 'whatsapp';
-if ($d['fabricante'] === '') $erros[] = 'fabricante';
-if ($d['modelo'] === '') $erros[] = 'modelo';
-if ((int) $d['ano'] < 1950 || (int) $d['ano'] > (int) date('Y') + 1) $erros[] = 'ano';
-if (strlen($d['chassi']) !== 17) $erros[] = 'chassi';
 if ($erros) sai(422, ['ok' => false, 'campos' => $erros]);
 
 // Limite simples: 5 envios por IP a cada 10 minutos.
@@ -62,22 +55,21 @@ $marcas[] = time();
 
 // 1) Cópia em CSV
 $quando = date('Y-m-d H:i:s');
-$csv = $cfg['pasta_dados'] . '/orcamentos.csv';
+$csv = $cfg['pasta_dados'] . '/agendamentos.csv';
 $novo = !is_file($csv);
 if ($fh = @fopen($csv, 'a')) {
-    if ($novo) fputcsv($fh, ['data', 'nome', 'whatsapp', 'fabricante', 'modelo', 'ano', 'chassi', 'utm/origem']);
-    fputcsv($fh, [$quando, $d['nome'], $d['whatsapp'], $d['fabricante'], $d['modelo'], $d['ano'], $d['chassi'], $_SERVER['HTTP_REFERER'] ?? '']);
+    if ($novo) fputcsv($fh, ['data', 'nome', 'whatsapp', 'assunto', 'origem']);
+    fputcsv($fh, [$quando, $d['nome'], $d['whatsapp'], $d['assunto'], $_SERVER['HTTP_REFERER'] ?? '']);
     fclose($fh);
 }
 
 // 2) E-mail para a recepção
 $wa = 'https://wa.me/55' . ltrim($d['whatsapp'], '0');
 if (str_starts_with($d['whatsapp'], '55') && strlen($d['whatsapp']) > 11) $wa = 'https://wa.me/' . $d['whatsapp'];
-$assunto = '=?UTF-8?B?' . base64_encode("Orçamento pelo site: {$d['fabricante']} {$d['modelo']} {$d['ano']}") . '?=';
-$corpo = "Novo pedido de orçamento pelo site ({$quando})\n\n"
-    . "Nome: {$d['nome']}\nWhatsApp: {$d['whatsapp']}  ->  {$wa}\n\n"
-    . "Fabricante: {$d['fabricante']}\nModelo: {$d['modelo']}\nAno: {$d['ano']}\nChassi: {$d['chassi']}\n\n"
-    . "O cliente também foi direcionado ao WhatsApp da OMA com esses dados.\n";
+$assunto = '=?UTF-8?B?' . base64_encode("Agendamento de avaliação pelo site: {$d['nome']}") . '?=';
+$corpo = "Novo pedido de agendamento de avaliação pelo site ({$quando})\n\n"
+    . "Nome: {$d['nome']}\nWhatsApp: {$d['whatsapp']}  ->  {$wa}\nAssunto: {$d['assunto']}\n\n"
+    . "O cliente também foi direcionado ao WhatsApp da OMA para combinar o dia da avaliação.\n";
 $cab = "From: Site OMA <{$cfg['email_remetente']}>\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit";
 $enviado = @mail($cfg['email_destino'], $assunto, $corpo, $cab, '-f' . $cfg['email_remetente']);
 
@@ -96,7 +88,7 @@ if ($cfg['meta_pixel_id'] && $cfg['meta_capi_token']) {
             'client_ip_address' => $ip, 'client_user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
             'fbp' => $_COOKIE['_fbp'] ?? null, 'fbc' => $_COOKIE['_fbc'] ?? null,
         ]),
-        'custom_data' => ['content_name' => 'formulario', 'content_category' => $d['fabricante']],
+        'custom_data' => ['content_name' => 'formulario-agendamento', 'content_category' => $d['assunto']],
     ];
     $payload = ['data' => [$evento]];
     if ($cfg['meta_test_event_code']) $payload['test_event_code'] = $cfg['meta_test_event_code'];
