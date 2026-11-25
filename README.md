@@ -50,3 +50,6 @@ SITE_TESTE=1 npm run build   # bloqueia indexação e desliga todo rastreamento
 ```
 No vhost de teste, acrescente também: `add_header X-Robots-Tag "noindex, nofollow" always;`
 Para produção, rode `npm run build` sem a variável.
+
+## Prévia na Vercel
+O arquivo `vercel.json` serve só para a prévia de teste na Vercel (sem indexação, sem rastreamento, sem o PHP). Ele não é usado no VPS.
