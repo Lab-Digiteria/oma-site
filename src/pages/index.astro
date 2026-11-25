@@ -1,0 +1,326 @@
+---
+import Base from '../layouts/Base.astro';
+import Icone from '../components/Icone.astro';
+import Foto from '../components/Foto.astro';
+import { site } from '../config/site';
+import { servicos, numeros, passos, sustentabilidade, faq, fabricantes } from '../config/conteudo';
+import { wa, waServico, fixoPrincipal } from '../config/util';
+
+const titulo = 'Oficina de Importados no Rio, Especialista Mitsubishi | OMA São Cristóvão';
+const descricao = 'Oficina multimarcas de importados em São Cristóvão (RJ), especializada em Mitsubishi. 1.400 m², diagnose para todas as marcas, lubrificantes Motul, funilaria e pintura. Orçamento pelo WhatsApp.';
+const e = site.endereco;
+const enderecoCompleto = `${e.rua}, ${e.bairro}, ${e.cidade} - ${e.uf}`;
+const waze = `https://waze.com/ul?ll=${e.lat},${e.lng}&navigate=yes`;
+const mapaEmbed = `https://www.google.com/maps?q=${encodeURIComponent(site.nome + ', ' + enderecoCompleto)}&output=embed`;
+---
+<Base titulo={titulo} descricao={descricao}>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- Pista: barra de progresso da rolagem (assinatura visual) -->
+  <div class="pista" aria-hidden="true"><span class="pista__trecho"></span></div>
+
+  <!-- 0. Barra superior -->
+  <div class="topbar">
+    <div class="wrap topbar__in">
+      <span class="topbar__local">São Cristóvão, Rio de Janeiro</span>
+      <div class="topbar__acoes">
+        <a href={site.redes.instagram} target="_blank" rel="noopener" aria-label="Instagram da OMA" data-track="social" data-origem="topbar-instagram"><Icone nome="instagram" tamanho={18} /></a>
+        <a href={site.redes.facebook} target="_blank" rel="noopener" aria-label="Facebook da OMA" data-track="social" data-origem="topbar-facebook"><Icone nome="facebook" tamanho={18} /></a>
+        <a class="topbar__fone" href={`tel:${fixoPrincipal.numero}`} data-track="telefone" data-origem="topbar"><Icone nome="telefone" tamanho={16} /> {fixoPrincipal.exibicao}</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. Cabeçalho -->
+  <header class="cab" id="topo">
+    <div class="wrap cab__in">
+      <a class="cab__logo" href="#topo" aria-label="OMA Oficina, início">
+        <img src="/img/logo-oma.png" alt="OMA Oficina Multimarcas Automotiva" width="497" height="208" />
+      </a>
+      <nav class="cab__nav" id="menu" aria-label="Seções">
+        <a href="#servicos">Serviços</a>
+        <a href="#mitsubishi">Mitsubishi</a>
+        <a href="#estrutura">Estrutura</a>
+        <a href="#orcamento">Orçamento</a>
+        <a href="#contato">Como chegar</a>
+        <div class="cab__nav-contato">
+          <a href={`tel:${fixoPrincipal.numero}`} data-track="telefone" data-origem="menu">{fixoPrincipal.exibicao}</a>
+          <a href={wa()} target="_blank" rel="noopener" data-track="whatsapp" data-origem="menu">WhatsApp {site.whatsapp.exibicao}</a>
+        </div>
+      </nav>
+      <a class="btn btn--wa btn--sm cab__wa" href={wa()} target="_blank" rel="noopener" data-track="whatsapp" data-origem="cabecalho" aria-label="Falar no WhatsApp">
+        <Icone nome="whatsapp" tamanho={18} /><span>WhatsApp</span>
+      </a>
+      <button class="cab__menu" type="button" aria-controls="menu" aria-expanded="false" aria-label="Abrir menu">
+        <Icone nome="menu" tamanho={26} class="i-abrir" /><Icone nome="fechar" tamanho={26} class="i-fechar" />
+      </button>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <!-- 2. Hero -->
+    <section class="hero" aria-labelledby="h1">
+      <div class="hero__foto">
+        <picture>
+          <source media="(min-width: 768px)" type="image/avif" srcset="/img/hero-d-960.avif 960w, /img/hero-d-1600.avif 1600w, /img/hero-d-2200.avif 2200w" sizes="100vw" />
+          <source media="(min-width: 768px)" type="image/webp" srcset="/img/hero-d-960.webp 960w, /img/hero-d-1600.webp 1600w, /img/hero-d-2200.webp 2200w" sizes="100vw" />
+          <source type="image/avif" srcset="/img/hero-m-600.avif 600w, /img/hero-m-900.avif 900w, /img/hero-m-1200.avif 1200w" sizes="100vw" />
+          <source type="image/webp" srcset="/img/hero-m-600.webp 600w, /img/hero-m-900.webp 900w, /img/hero-m-1200.webp 1200w" sizes="100vw" />
+          <img src="/img/hero-m-900.webp" alt="Salão da OMA visto do mezanino, com a pista pintada no piso, elevadores e SUVs em manutenção" width="900" height="1050" fetchpriority="high" decoding="async" />
+        </picture>
+      </div>
+      <div class="wrap hero__txt">
+        <h1 id="h1">Oficina de importados no Rio, especializada em Mitsubishi</h1>
+        <p class="hero__apoio">1.400 m² em São Cristóvão, diagnose para todas as marcas e lubrificantes Motul. Envie marca, modelo e chassi e receba seu orçamento pelo WhatsApp.</p>
+        <div class="hero__acoes">
+          <a class="btn btn--wa btn--lg" href={wa()} target="_blank" rel="noopener" data-track="whatsapp" data-origem="hero">
+            <Icone nome="whatsapp" tamanho={22} /><span>Pedir orçamento no WhatsApp</span>
+          </a>
+          <a class="btn btn--linha" href="#servicos">Ver serviços</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Faixa de números: trecho de asfalto -->
+    <div class="asfalto" role="list" aria-label="A oficina em números">
+      <div class="wrap asfalto__in">
+        {numeros.map((n) => (
+          <div class="numero" role="listitem"><strong>{n.valor}</strong><span>{n.rotulo}</span></div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 3. Serviços -->
+    <section class="secao secao--concreto" id="servicos" aria-labelledby="t-servicos">
+      <div class="wrap">
+        <div class="secao__cab">
+          <h2 id="t-servicos">O que fazemos pelo seu carro</h2>
+          <p>Cada serviço tem orçamento próprio. Toque no botão do card e a conversa já começa com o serviço certo.</p>
+        </div>
+        <ul class="cards" role="list">
+          {servicos.map((s) => (
+            <li class="card" id={`servico-${s.id}`}>
+              <Icone nome={s.icone} tamanho={34} class="card__icone" />
+              <h3>{s.nome}</h3>
+              <p>{s.linha}</p>
+              <a class="card__wa" href={waServico(s.nome)} target="_blank" rel="noopener" data-track="whatsapp" data-origem={`card-${s.id}`}>
+                <Icone nome="whatsapp" tamanho={20} /><span>Orçar no WhatsApp</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="dica-arraste" aria-hidden="true">Arraste para ver os {servicos.length} serviços</p>
+      </div>
+    </section>
+
+    <!-- 4. Mitsubishi -->
+    <section class="secao secao--marinho mitsu" id="mitsubishi" aria-labelledby="t-mitsu">
+      <div class="wrap mitsu__in">
+        <div class="mitsu__txt">
+          <h2 id="t-mitsu">Mitsubishi é a nossa especialidade.</h2>
+          <p class="mitsu__modelos">Lancer, Pajero, L200, Outlander, ASX, Eclipse Cross.</p>
+          <p>Conhecemos a mecânica, a tração 4x4, o câmbio CVT e a eletrônica da marca por dentro. Diagnóstico certo e peça certa, conferida pelo chassi.</p>
+          <a class="btn btn--wa" href={wa('Olá! Vim pelo site da OMA e quero um orçamento para meu Mitsubishi. Vou informar modelo, ano e chassi.')} target="_blank" rel="noopener" data-track="whatsapp" data-origem="mitsubishi">
+            <Icone nome="whatsapp" tamanho={20} /><span>Orçamento para meu Mitsubishi</span>
+          </a>
+        </div>
+        <Foto class="mitsu__foto" nome="elevadores" larguras={[640, 1100]} largura={1100} altura={825} sizes="(min-width: 900px) 50vw, 100vw" alt="SUVs Mitsubishi nos elevadores da OMA" />
+      </div>
+    </section>
+
+    <!-- Avaliações do Google -->
+    <section class="secao secao--concreto aval" id="avaliacoes" aria-labelledby="t-aval">
+      <div class="wrap">
+        <div class="aval__card">
+          <div class="aval__nota">
+            <h2 id="t-aval" class="sr">Avaliações no Google</h2>
+            <strong>{site.avaliacoes.nota}</strong>
+            <div class="estrelas" role="img" aria-label={`Nota ${site.avaliacoes.nota} de 5`}>
+              {[1,2,3,4,5].map(() => <Icone nome="estrela" tamanho={18} />)}
+            </div>
+            <span>{site.avaliacoes.total} avaliações no Google</span>
+            <a href={site.googleMaps.link} target="_blank" rel="noopener" data-track="avaliacoes" data-origem="card">Ler todas no Google</a>
+          </div>
+          <div class="aval__trechos" role="list">
+            {site.avaliacoes.trechos.map((t) => (
+              <figure class="trecho" role="listitem">
+                <blockquote><p>{t.texto}</p></blockquote>
+                <figcaption>{t.autor}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 e 6. Estrutura, segurança e Motul -->
+    <section class="secao secao--branco" id="estrutura" aria-labelledby="t-estrutura">
+      <div class="wrap">
+        <div class="secao__cab">
+          <h2 id="t-estrutura">Uma oficina feita para receber o seu carro</h2>
+          <p>Ambiente limpo, organizado e vigiado, do mezanino à cabine de pintura.</p>
+        </div>
+        <div class="galeria" role="list">
+          <figure role="listitem" class="galeria__g"><Foto nome="salao" larguras={[640, 1100]} largura={1100} altura={825} sizes="(min-width: 900px) 58vw, 85vw" alt="Salão principal da OMA com elevadores e área de alinhamento" /><figcaption>Salão principal</figcaption></figure>
+          <figure role="listitem"><Foto nome="pintura" larguras={[640, 1100]} largura={1100} altura={1100} sizes="(min-width: 900px) 28vw, 85vw" alt="Pintor da OMA aplicando verniz na cabine de pintura" /><figcaption>Cabine de pintura</figcaption></figure>
+          <figure role="listitem"><Foto nome="acabamento" larguras={[640, 1100]} largura={1100} altura={1100} sizes="(min-width: 900px) 28vw, 85vw" alt="Peça recém-pintada com acabamento espelhado" /><figcaption>Acabamento</figcaption></figure>
+        </div>
+        <ul class="checks" role="list">
+          <li><Icone nome="check" tamanho={22} />1.400 m² e 6 elevadores para até 3,5 t</li>
+          <li><Icone nome="check" tamanho={22} />Monitoramento 24h, alarmes e seguro para os carros em serviço, com a Vigban</li>
+          <li><Icone nome="check" tamanho={22} />Alinhamento 3D e rodas até 24"</li>
+          <li><Icone nome="check" tamanho={22} />Equipe com treinamento periódico e sala de espera para o cliente</li>
+        </ul>
+
+        <div class="parceiro" id="motul">
+          <Foto class="parceiro__foto" nome="motul" larguras={[640, 1100]} largura={1100} altura={825} sizes="(min-width: 900px) 45vw, 100vw" alt="Parede Motul no salão da OMA" />
+          <div class="parceiro__txt">
+            <!-- Logo provisório: troque pelo arquivo oficial em /public/img/parceiros/motul.svg -->
+            <span class="parceiro__marca" data-provisorio="motul">Motul</span>
+            <h3>Lubrificantes Motul, parceira da OMA</h3>
+            <p>Usamos lubrificantes Motul na especificação indicada por cada fabricante, dos carros do dia a dia aos clássicos.</p>
+            <a class="link-wa" href={waServico('Troca de óleo')} target="_blank" rel="noopener" data-track="whatsapp" data-origem="motul"><Icone nome="whatsapp" tamanho={20} />Agendar troca de óleo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Como funciona -->
+    <section class="secao secao--concreto" id="como-funciona" aria-labelledby="t-como">
+      <div class="wrap">
+        <div class="secao__cab">
+          <h2 id="t-como">Como funciona o orçamento</h2>
+          <p><strong>Por que pedimos o chassi?</strong> Ele identifica a versão exata do carro e evita peça errada.</p>
+        </div>
+        <ol class="rota">
+          {passos.map((p, i) => (
+            <li class="rota__parada"><span class="rota__marco" aria-hidden="true">{i + 1}</span><h3>{p.titulo}</h3><p>{p.texto}</p></li>
+          ))}
+        </ol>
+        <a class="btn btn--wa" href={wa()} target="_blank" rel="noopener" data-track="whatsapp" data-origem="como-funciona"><Icone nome="whatsapp" tamanho={20} /><span>Começar pelo WhatsApp</span></a>
+      </div>
+    </section>
+
+    <!-- 8. Sustentabilidade -->
+    <section class="secao secao--branco secao--curta" id="sustentabilidade" aria-labelledby="t-sust">
+      <div class="wrap sust">
+        <h2 id="t-sust">Cuidado com o carro e com a cidade</h2>
+        <ul class="checks checks--grade" role="list">
+          {sustentabilidade.map((s) => <li><Icone nome="check" tamanho={22} />{s}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <!-- 9. Perguntas frequentes -->
+    <section class="secao secao--concreto" id="perguntas" aria-labelledby="t-faq">
+      <div class="wrap faq">
+        <h2 id="t-faq">Perguntas frequentes</h2>
+        <div class="faq__lista">
+          {faq.map((f) => (
+            <details class="faq__item"><summary>{f.p}</summary><p>{f.r}</p></details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Formulário -->
+    <section class="secao secao--noite" id="orcamento" aria-labelledby="t-form">
+      <div class="wrap form-bloco">
+        <div class="form-bloco__txt">
+          <h2 id="t-form">Peça seu orçamento</h2>
+          <p>Preencha os dados e continue a conversa no WhatsApp, já com tudo escrito. Se preferir, ligue para <a href={`tel:${fixoPrincipal.numero}`} data-track="telefone" data-origem="formulario">{fixoPrincipal.exibicao}</a>.</p>
+          <p class="form-bloco__chassi">O chassi está no documento do carro (CRLV), no campo “Chassi”, e tem 17 letras e números.</p>
+        </div>
+        <form class="form" id="form-orcamento" action="/api/orcamento.php" method="post" data-wa={site.whatsapp.numero} novalidate>
+          <fieldset>
+            <legend>Seus dados</legend>
+            <label>Nome<input name="nome" autocomplete="name" required maxlength="80" /></label>
+            <label>WhatsApp<input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(21) 99999-9999" required maxlength="16" /></label>
+          </fieldset>
+          <fieldset>
+            <legend>Seu veículo</legend>
+            <label>Fabricante
+              <select name="fabricante" required>
+                <option value="">Escolha</option>
+                {fabricantes.map((f) => <option>{f}</option>)}
+              </select>
+            </label>
+            <div class="form__dupla">
+              <label>Modelo<input name="modelo" required maxlength="60" placeholder="Ex.: Pajero Sport" /></label>
+              <label class="form__ano">Ano<input name="ano" inputmode="numeric" required maxlength="4" placeholder="2020" /></label>
+            </div>
+            <label>Chassi<input name="chassi" required maxlength="17" autocapitalize="characters" spellcheck="false" placeholder="17 letras e números" /></label>
+          </fieldset>
+          <label class="hp" aria-hidden="true">Não preencha<input name="site" tabindex="-1" autocomplete="off" /></label>
+          <input type="hidden" name="event_id" />
+          <p class="form__erro" role="alert" hidden></p>
+          <button class="btn btn--wa btn--lg btn--bloco" type="submit" data-origem="formulario">
+            <Icone nome="whatsapp" tamanho={22} /><span>Enviar pelo WhatsApp</span>
+          </button>
+          <p class="form__lgpd">Usamos seus dados só para responder ao orçamento. <a href="/politica-de-privacidade/">Política de privacidade</a>.</p>
+          <div class="form__ok" hidden>
+            <svg viewBox="0 0 32 32" width="56" height="56" aria-hidden="true"><path class="ok-check" d="M5 17l7 7L27 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <p><strong>Pedido enviado.</strong> Abrimos o WhatsApp com seus dados. Se ele não abriu, <a class="form__ok-link" href={wa()} target="_blank" rel="noopener">toque aqui</a>.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- 11. Rodapé -->
+  <footer class="rodape" id="contato">
+    <div class="wrap">
+      <div class="rodape__end">
+        <Icone nome="pin" tamanho={40} class="rodape__pin" />
+        <address>
+          <span class="rodape__rua">{e.rua}</span>
+          <span class="rodape__bairro">{e.bairro}, {e.cidade} – {e.uf}, CEP {e.cep}</span>
+        </address>
+        <div class="rodape__rotas">
+          <a class="btn btn--claro" href={site.googleMaps.link} target="_blank" rel="noopener" data-track="rota" data-origem="google-maps">Google Maps</a>
+          <a class="btn btn--linha-claro" href={waze} target="_blank" rel="noopener" data-track="rota" data-origem="waze">Waze</a>
+        </div>
+      </div>
+      <div class="rodape__mapa" data-mapa={mapaEmbed}>
+        <button type="button" class="rodape__mapa-btn">Mostrar mapa</button>
+      </div>
+      <div class="rodape__cols">
+        <div><h3>Horário</h3><p>{site.horario.texto}</p></div>
+        <div><h3>Telefones</h3>
+          <p><a href={wa()} target="_blank" rel="noopener" data-track="whatsapp" data-origem="rodape">WhatsApp {site.whatsapp.exibicao}</a></p>
+          {site.telefones.map((t) => <p><a href={`tel:${t.numero}`} data-track="telefone" data-origem="rodape">{t.exibicao}</a></p>)}
+        </div>
+        <div><h3>E-mail</h3><p><a href={`mailto:${site.email}`} data-track="email" data-origem="rodape">{site.email}</a></p></div>
+        <div><h3>Redes</h3>
+          <p class="rodape__redes">
+            <a href={site.redes.instagram} target="_blank" rel="noopener" aria-label="Instagram" data-track="social" data-origem="rodape-instagram"><Icone nome="instagram" tamanho={24} /></a>
+            <a href={site.redes.facebook} target="_blank" rel="noopener" aria-label="Facebook" data-track="social" data-origem="rodape-facebook"><Icone nome="facebook" tamanho={24} /></a>
+          </p>
+        </div>
+      </div>
+      <div class="rodape__base">
+        <img src="/img/logo-oma-branco.png" alt="OMA" width="120" height="50" loading="lazy" />
+        <p>{site.razaoSocial}, CNPJ {site.cnpj}</p>
+        <p><a href="/politica-de-privacidade/">Política de privacidade</a></p>
+        <p>Site por <a href="https://digiteria.com.br" target="_blank" rel="noopener">Digiteria</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp sempre visível: botão flutuante (desktop) e barra fixa (celular) -->
+  <a class="wa-flutuante" href={wa()} target="_blank" rel="noopener" aria-label="Falar no WhatsApp" data-track="whatsapp" data-origem="flutuante">
+    <Icone nome="whatsapp" tamanho={32} />
+  </a>
+  <nav class="barra" aria-label="Contato rápido">
+    <a class="barra__wa" href={wa()} target="_blank" rel="noopener" data-track="whatsapp" data-origem="barra-fixa"><Icone nome="whatsapp" tamanho={22} class="barra__wa-icone" />WhatsApp</a>
+    <a class="barra__fone" href={`tel:${fixoPrincipal.numero}`} data-track="telefone" data-origem="barra-fixa"><Icone nome="telefone" tamanho={20} />Ligar</a>
+  </nav>
+
+  <!-- Aviso de cookies: só aparece quando houver algum ID de rastreamento configurado -->
+  <div class="cookies" role="dialog" aria-live="polite" aria-label="Cookies" hidden>
+    <p>Usamos cookies para medir visitas e anúncios. Você escolhe.</p>
+    <div><button type="button" class="btn btn--sm btn--marinho" data-consent="all">Aceitar</button><button type="button" class="btn btn--sm btn--linha" data-consent="essential">Só os essenciais</button></div>
+  </div>
+
+  <script src="../scripts/app.ts"></script>
+</Base>

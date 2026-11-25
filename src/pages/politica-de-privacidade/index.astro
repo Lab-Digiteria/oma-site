@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../config/site';
+---
+<Base titulo="Política de privacidade | OMA Oficina" descricao="Como a OMA Oficina usa os dados enviados pelo site." caminho="/politica-de-privacidade/" schema={false}>
+  <main class="wrap pagina">
+    <p><a href="/">Voltar ao site</a></p>
+    <h1>Política de privacidade</h1>
+    <p>Esta página explica como a {site.razaoSocial} (CNPJ {site.cnpj}) trata os dados enviados pelo site omaoficina.com.br, de acordo com a Lei Geral de Proteção de Dados (Lei 13.709/2018).</p>
+    <h2>Dados que coletamos</h2>
+    <p>No formulário de orçamento: nome, WhatsApp, fabricante, modelo, ano e chassi do veículo. Usamos esses dados apenas para preparar e enviar o orçamento solicitado.</p>
+    <h2>Cookies e medição</h2>
+    <p>Com a sua autorização, usamos ferramentas do Google e da Meta para medir visitas e o desempenho dos anúncios. Você pode recusar no aviso de cookies; o site continua funcionando normalmente.</p>
+    <h2>Compartilhamento</h2>
+    <p>Não vendemos nem cedemos seus dados. Eles ficam armazenados com acesso restrito à equipe da OMA.</p>
+    <h2>Seus direitos</h2>
+    <p>Você pode pedir acesso, correção ou exclusão dos seus dados pelo e-mail <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+  </main>
+</Base>

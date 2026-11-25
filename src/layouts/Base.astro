@@ -1,0 +1,130 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import fonteLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import '../styles/global.css';
+import { site, tracking, TESTE } from '../config/site';
+import { servicos, faq } from '../config/conteudo';
+
+interface Props { titulo: string; descricao: string; caminho?: string; schema?: boolean }
+const { titulo, descricao, caminho = '/', schema = true } = Astro.props;
+const url = new URL(caminho, site.url).toString();
+const e = site.endereco;
+
+const ld = schema ? [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AutoRepair',
+    '@id': `${site.url}/#oficina`,
+    name: site.nome,
+    alternateName: site.nomeCurto,
+    legalName: site.razaoSocial,
+    taxID: site.cnpj,
+    url: site.url,
+    logo: `${site.url}/img/logo-oma.png`,
+    image: [`${site.url}/img/og.jpg`, `${site.url}/img/salao-1100.webp`],
+    description: descricao,
+    telephone: site.telefones[0].numero,
+    email: site.email,
+    address: {
+      '@type': 'PostalAddress', streetAddress: e.rua, addressLocality: e.cidade,
+      addressRegion: e.uf, postalCode: e.cep, addressCountry: 'BR',
+      areaServed: e.bairro,
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: e.lat, longitude: e.lng },
+    hasMap: site.googleMaps.link,
+    openingHoursSpecification: [{
+      '@type': 'OpeningHoursSpecification', dayOfWeek: site.horario.dias,
+      opens: site.horario.abre, closes: site.horario.fecha,
+    }],
+    areaServed: { '@type': 'City', name: 'Rio de Janeiro' },
+    knowsAbout: ['Mitsubishi', 'Câmbio automático CVT', 'Carros importados', 'Diagnose eletrônica', 'Pintura automotiva'],
+    brand: [{ '@type': 'Brand', name: 'Mitsubishi' }, { '@type': 'Brand', name: 'Motul' }],
+    sameAs: [site.redes.instagram, site.redes.facebook, site.googleMaps.link],
+    contactPoint: [{
+      '@type': 'ContactPoint', contactType: 'customer service',
+      telephone: `+${site.whatsapp.numero}`, availableLanguage: 'Portuguese',
+    }],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog', name: 'Serviços',
+      itemListElement: servicos.map((s) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: s.nome, description: s.linha, provider: { '@id': `${site.url}/#oficina` } },
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.p, acceptedAnswer: { '@type': 'Answer', text: f.r } })),
+  },
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: site.nome, url: site.url, inLanguage: 'pt-BR' },
+] : [];
+
+const cfg = {
+  gtm: tracking.gtmId, ga4: tracking.ga4Id, ads: tracking.googleAdsId,
+  adsLabels: tracking.googleAdsLabels, pixel: tracking.metaPixelId,
+};
+---
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{titulo}</title>
+  <meta name="description" content={descricao} />
+  <link rel="canonical" href={url} />
+  {TESTE && <meta name="robots" content="noindex, nofollow" />}
+  <meta name="theme-color" content="#051F5C" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="preload" as="font" type="font/woff2" href={fonteLatin} crossorigin />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content={site.nomeCurto} />
+  <meta property="og:title" content={titulo} />
+  <meta property="og:description" content={descricao} />
+  <meta property="og:url" content={url} />
+  <meta property="og:image" content={`${site.url}/img/og.jpg`} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="geo.region" content="BR-RJ" />
+  <meta name="geo.placename" content="São Cristóvão, Rio de Janeiro" />
+  <meta name="geo.position" content={`${e.lat};${e.lng}`} />
+  {tracking.googleSiteVerification && <meta name="google-site-verification" content={tracking.googleSiteVerification} />}
+  {tracking.metaDomainVerification && <meta name="facebook-domain-verification" content={tracking.metaDomainVerification} />}
+  <link rel="preload" as="image" type="image/avif" imagesrcset="/img/hero-m-600.avif 600w, /img/hero-m-900.avif 900w, /img/hero-m-1200.avif 1200w" imagesizes="100vw" media="(max-width: 767px)" />
+  <link rel="preload" as="image" type="image/avif" imagesrcset="/img/hero-d-960.avif 960w, /img/hero-d-1600.avif 1600w, /img/hero-d-2200.avif 2200w" imagesizes="100vw" media="(min-width: 768px)" />
+  {ld.map((o) => <script type="application/ld+json" set:html={JSON.stringify(o)} />)}
+
+  <!-- Consentimento (LGPD) + carregadores de rastreamento. Nada carrega com ID vazio. -->
+  <script is:inline define:vars={{ cfg }}>
+    window.OMA_TRACK = cfg;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
+    var ok = null; try { ok = localStorage.getItem('oma-consent'); } catch (e) {}
+    var g = ok === 'all' ? 'granted' : 'denied';
+    gtag('consent', 'default', { ad_storage: g, analytics_storage: g, ad_user_data: g, ad_personalization: g, wait_for_update: 500 });
+    if (cfg.gtm) {
+      (function(w,d,s,l,i){w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s);j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',cfg.gtm);
+    } else if (cfg.ga4 || cfg.ads) {
+      var s = document.createElement('script'); s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + (cfg.ga4 || cfg.ads);
+      document.head.appendChild(s);
+      gtag('js', new Date());
+      if (cfg.ga4) gtag('config', cfg.ga4);
+      if (cfg.ads) gtag('config', cfg.ads);
+    }
+    window.OMA_loadPixel = function () {
+      if (!cfg.pixel || window.fbq) return;
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', cfg.pixel); fbq('track', 'PageView');
+    };
+    if (ok === 'all') window.OMA_loadPixel();
+  </script>
+</head>
+<body>
+  {cfg.gtm && <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${cfg.gtm}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>}
+  <slot />
+</body>
+</html>

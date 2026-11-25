@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { wa } from '../config/util';
+---
+<Base titulo="Página não encontrada | OMA Oficina" descricao="Página não encontrada." caminho="/404" schema={false}>
+  <main class="wrap pagina">
+    <h1>Esta página saiu da pista.</h1>
+    <p>O endereço mudou ou não existe mais. Volte para o início ou fale com a gente.</p>
+    <p style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn--marinho" href="/">Ir para o início</a> <a class="btn btn--wa" href={wa()} target="_blank" rel="noopener">Falar no WhatsApp</a></p>
+  </main>
+</Base>
